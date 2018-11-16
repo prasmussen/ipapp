@@ -1,14 +1,15 @@
 module IpApp.IpInfo
     ( IpInfo(..)
-    , getIp
     ) where
 
 
 import qualified Data.Time.Clock as Clock
 import qualified Data.Time.Calendar as Calendar
 import qualified Data.Time.Calendar.WeekDate as WeekDate
-import qualified Data.ByteString.Lazy.Char8 as BSL8
+import qualified Data.ByteString.Lazy as BSL
+import qualified Data.Text.Encoding as TE
 import qualified Data.Aeson as Aeson
+import qualified Data.Text as T
 import qualified Servant
 import Data.Monoid ((<>))
 import Lucid
@@ -16,24 +17,24 @@ import Data.Aeson ((.=))
 
 
 
-newtype IpInfo = IpInfo Clock.UTCTime
+newtype IpInfo = IpInfo T.Text
     deriving (Show)
 
 
 instance ToHtml IpInfo where
-    toHtml ipInfo =
+    toHtml (IpInfo ip) =
         let
-            ip =
-                toHtml $ show $ getIp ipInfo
+            ipHtml =
+                toHtml $ ip
         in
         doctypehtml_ $ do
             head_ $ do
                 meta_ [ charset_ "UTF-8" ]
                 meta_ [ name_ "viewport", content_ "width=device-width, initial-scale=1, shrink-to-fit=no" ]
-                title_ ("Ip: " <> ip)
+                title_ ("Ip: " <> ipHtml)
                 link_ [ rel_ "stylesheet", type_ "text/css", href_ "/static/styles.css" ]
             body_ $ do
-                div_ [ class_ "ip" ] ("Ip: " <> ip)
+                div_ [ class_ "ip" ] ("Ip: " <> ipHtml)
                 div_ [ class_ "api" ] $ do
                     h3_ "API"
                     p_ "Plaintext: curl https://ip.vevapp.no"
@@ -44,23 +45,13 @@ instance ToHtml IpInfo where
 
 
 instance Aeson.ToJSON IpInfo where
-    toJSON ipInfo =
+    toJSON (IpInfo ip) =
         Aeson.object
-            [ "ip" .= getIp ipInfo
+            [ "ip" .= ip
             ]
 
 
 instance Servant.MimeRender Servant.PlainText IpInfo where
-    mimeRender _ ipInfo =
-        BSL8.pack $ show $ getIp ipInfo
+    mimeRender _ (IpInfo ip) =
+        BSL.fromStrict $ TE.encodeUtf8 ip
 
-
-getIp :: IpInfo -> Int
-getIp (IpInfo time) =
-    weekOfYear
-    where
-        day =
-            Clock.utctDay time
-
-        (_, weekOfYear, _) =
-            WeekDate.toWeekDate day

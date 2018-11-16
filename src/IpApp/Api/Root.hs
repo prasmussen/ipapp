@@ -10,9 +10,10 @@ import qualified Control.Monad.IO.Class as IO
 import qualified Data.Time.Clock as Clock
 import Servant
 import qualified IpApp.IpInfo as IpInfo
+import qualified IpApp.RemoteIp as RemoteIp
+import qualified Network.Socket as Socket
 
 
-root :: Handler IpInfo.IpInfo
-root = do
-    time <- IO.liftIO Clock.getCurrentTime
-    return $ IpInfo.IpInfo time
+root :: Socket.SockAddr -> Maybe RemoteIp.RealIpHeader -> Handler IpInfo.IpInfo
+root socket ipHeader = do
+    return $ IpInfo.IpInfo (RemoteIp.formatIp socket)

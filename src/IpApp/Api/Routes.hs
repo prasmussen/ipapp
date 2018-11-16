@@ -9,6 +9,7 @@ module IpApp.Api.Routes
 import qualified IpApp.Api.Root as Root
 import qualified IpApp.IpInfo as IpInfo
 import qualified IpApp.Config as Config
+import qualified IpApp.RemoteIp as RemoteIp
 import Servant
 import Servant.HTML.Lucid
 
@@ -26,7 +27,9 @@ server config
 
 
 type RootRoute =
-    Get '[PlainText, JSON, HTML] IpInfo.IpInfo
+    RemoteHost
+    :> Header "X-Real-Ip" RemoteIp.RealIpHeader
+    :> Get '[PlainText, JSON, HTML] IpInfo.IpInfo
 
 
 type StaticRoute =

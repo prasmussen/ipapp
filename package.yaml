@@ -28,6 +28,9 @@ dependencies:
 - warp
 - lucid
 - aeson
+- network
+- iproute
+- http-api-data
 - servant-lucid
 - servant-server
 
