@@ -22,7 +22,7 @@ type Api
 
 server :: Config.Config -> Server Api
 server config
-      =  Root.root
+      =  Root.root config
     :<|> serveDirectoryWebApp (Config.staticPathStr config)
 
 

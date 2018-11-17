@@ -12,11 +12,14 @@ import qualified Data.Text as T
 import qualified Data.String as String
 import qualified Text.Read as Read
 import qualified Network.Wai.Handler.Warp as Warp
+import qualified IpApp.RemoteIp as RemoteIp
 
 
 data Config = Config
     { staticPath :: StaticPath
+    , remoteIpSource :: RemoteIp.Source
     }
+    deriving (Show)
 
 
 

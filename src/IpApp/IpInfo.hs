@@ -1,5 +1,6 @@
 module IpApp.IpInfo
     ( IpInfo(..)
+    , fromRemoteIp
     ) where
 
 
@@ -10,6 +11,7 @@ import qualified Data.ByteString.Lazy as BSL
 import qualified Data.Text.Encoding as TE
 import qualified Data.Aeson as Aeson
 import qualified Data.Text as T
+import qualified IpApp.RemoteIp as RemoteIp
 import qualified Servant
 import Data.Monoid ((<>))
 import Lucid
@@ -19,6 +21,11 @@ import Data.Aeson ((.=))
 
 newtype IpInfo = IpInfo T.Text
     deriving (Show)
+
+
+fromRemoteIp :: RemoteIp.RemoteIp -> IpInfo
+fromRemoteIp (RemoteIp.RemoteIp ip) =
+    IpInfo ip
 
 
 instance ToHtml IpInfo where

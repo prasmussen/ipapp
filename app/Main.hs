@@ -7,6 +7,7 @@ import qualified System.Environment as Env
 import qualified Data.Coerce as Coerce
 import qualified IpApp.Config as Config
 import qualified IpApp.Api as Api
+import qualified IpApp.RemoteIp as RemoteIp
 import Data.Function ((&))
 import Data.Monoid ((<>))
 
@@ -15,12 +16,20 @@ main :: IO ()
 main = do
     listenPort <- lookupSetting "LISTEN_PORT" (Config.ListenPort 8081)
     listenHost <- lookupSetting "LISTEN_HOST" (Config.ListenHost "*4")
-    staticPath <- lookupSetting "STATIC_PATH" (Config.StaticPath "./static")
-    let config = Config.Config { Config.staticPath = staticPath }
+    config <- readConfig
     print listenHost
     print listenPort
-    (Warp.runSettings (warpSettings listenPort listenHost) (Api.app config))
+    Warp.runSettings (warpSettings listenPort listenHost) (Api.app config)
 
+
+readConfig :: IO Config.Config
+readConfig = do
+    staticPath <- lookupSetting "STATIC_PATH" (Config.StaticPath "./static")
+    ipSource <- lookupSetting "IP_SOURCE" RemoteIp.Socket
+    return $ Config.Config
+        { Config.staticPath = staticPath
+        , Config.remoteIpSource = ipSource
+        }
 
 warpSettings :: Config.ListenPort -> Config.ListenHost -> Warp.Settings
 warpSettings (Config.ListenPort port) (Config.ListenHost host) =

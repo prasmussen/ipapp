@@ -3,6 +3,7 @@ set -e
 
 export LISTEN_PORT="8080"
 export LISTEN_HOST="*4"
+export IP_SOURCE="socket"
 export STATIC_PATH="./static"
 
 lockfile="build.lock"

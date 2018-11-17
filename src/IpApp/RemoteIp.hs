@@ -1,7 +1,9 @@
 module IpApp.RemoteIp
     ( RemoteIp(..)
     , RealIpHeader(..)
+    , Source(..)
     , formatIp
+    , getRemoteIp
     ) where
 
 import qualified Data.Text as T
@@ -35,3 +37,40 @@ formatIp sockAddr =
 
         _ ->
             "N/A"
+
+
+data Source
+    = Socket
+    | RealIp
+    deriving (Show, Eq)
+
+
+instance Read Source where
+    readsPrec _ value =
+        case value of
+            "socket" ->
+                [(Socket, "")]
+
+            "real_ip" ->
+                [(RealIp, "")]
+
+            _ ->
+                []
+
+
+getRemoteIp :: Source -> Socket.SockAddr -> Maybe RealIpHeader -> RemoteIp
+getRemoteIp source sockAddr maybeRealIp =
+    case source of
+        Socket ->
+            RemoteIp $ formatIp sockAddr
+
+        RealIp ->
+            case maybeRealIp of
+                Nothing ->
+                    RemoteIp "N/A"
+
+                Just (RealIpHeader "") ->
+                    RemoteIp "N/A"
+
+                Just (RealIpHeader realIp) ->
+                    RemoteIp realIp
