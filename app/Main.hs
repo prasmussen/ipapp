@@ -7,16 +7,26 @@ import qualified System.Environment as Env
 import qualified Data.Coerce as Coerce
 import qualified IpApp.Config as Config
 import qualified IpApp.Api as Api
+import Data.Function ((&))
 import Data.Monoid ((<>))
 
 
 main :: IO ()
 main = do
     listenPort <- lookupSetting "LISTEN_PORT" (Config.ListenPort 8081)
+    listenHost <- lookupSetting "LISTEN_HOST" (Config.ListenHost "*4")
     staticPath <- lookupSetting "STATIC_PATH" (Config.StaticPath "./static")
     let config = Config.Config { Config.staticPath = staticPath }
-    putStrLn $ "Listening on port: " <> (show listenPort)
-    Warp.run (Coerce.coerce listenPort) (Api.app config)
+    print listenHost
+    print listenPort
+    (Warp.runSettings (warpSettings listenPort listenHost) (Api.app config))
+
+
+warpSettings :: Config.ListenPort -> Config.ListenHost -> Warp.Settings
+warpSettings (Config.ListenPort port) (Config.ListenHost host) =
+    Warp.defaultSettings
+    & Warp.setHost host
+    & Warp.setPort port
 
 
 

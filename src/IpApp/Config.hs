@@ -1,6 +1,7 @@
 module IpApp.Config
     ( Config(..)
     , ListenPort(..)
+    , ListenHost(..)
     , StaticPath(..)
     , staticPathStr
     )
@@ -8,7 +9,9 @@ module IpApp.Config
 
 
 import qualified Data.Text as T
+import qualified Data.String as String
 import qualified Text.Read as Read
+import qualified Network.Wai.Handler.Warp as Warp
 
 
 data Config = Config
@@ -27,6 +30,15 @@ newtype ListenPort = ListenPort Int
 
 instance Read ListenPort where
     readsPrec _ = readMaybe ListenPort
+
+
+
+newtype ListenHost = ListenHost Warp.HostPreference
+    deriving (Show)
+
+instance Read ListenHost where
+    readsPrec _ = readHostPreference ListenHost
+
 
 
 newtype StaticPath = StaticPath T.Text
@@ -50,3 +62,8 @@ readMaybe constructor str =
 readText :: (T.Text -> a) -> String -> [(a, String)]
 readText constructor str =
     [(constructor $ T.pack str, "")]
+
+
+readHostPreference :: (Warp.HostPreference -> a) -> String -> [(a, String)]
+readHostPreference constructor str =
+    [(constructor $ String.fromString str, "")]
