@@ -1,15 +1,15 @@
 module Main where
 
-import qualified Network.Wai.Handler.Warp as Warp
-import qualified Safe
-import qualified Data.Text as T
-import qualified System.Environment as Env
 import qualified Data.Coerce as Coerce
-import qualified IpApp.Config as Config
-import qualified IpApp.Api as Api
-import qualified IpApp.RemoteIp as RemoteIp
 import Data.Function ((&))
 import Data.Monoid ((<>))
+import qualified Data.Text as T
+import qualified Network.Wai.Handler.Warp as Warp
+import qualified Safe
+import qualified System.Environment as Env
+import qualified Vevapp.Api as Api
+import qualified Vevapp.Config as Config
+import qualified Vevapp.RemoteIp as RemoteIp
 
 
 main :: IO ()

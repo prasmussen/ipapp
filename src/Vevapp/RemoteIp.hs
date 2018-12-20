@@ -1,4 +1,4 @@
-module IpApp.RemoteIp
+module Vevapp.RemoteIp
     ( RemoteIp(..)
     , RealIpHeader(..)
     , Source(..)
@@ -6,11 +6,11 @@ module IpApp.RemoteIp
     , getRemoteIp
     ) where
 
+import qualified Data.IP as IP
 import qualified Data.Text as T
 import qualified GHC.Generics as GHC
-import qualified Web.HttpApiData as HttpApiData
 import qualified Network.Socket as Socket
-import qualified Data.IP as IP
+import qualified Web.HttpApiData as HttpApiData
 
 
 newtype RemoteIp = RemoteIp T.Text

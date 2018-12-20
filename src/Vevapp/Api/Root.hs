@@ -2,16 +2,16 @@
 {-# LANGUAGE ExtendedDefaultRules #-}
 
 
-module IpApp.Api.Root
+module Vevapp.Api.Root
     ( root
     ) where
 
 
-import Servant
-import qualified IpApp.IpInfo as IpInfo
-import qualified IpApp.RemoteIp as RemoteIp
-import qualified IpApp.Config as Config
 import qualified Network.Socket as Socket
+import Servant
+import qualified Vevapp.Config as Config
+import qualified Vevapp.IpInfo as IpInfo
+import qualified Vevapp.RemoteIp as RemoteIp
 
 
 root :: Config.Config -> Socket.SockAddr -> Maybe RemoteIp.RealIpHeader -> Handler IpInfo.IpInfo

@@ -2,14 +2,14 @@
 {-# LANGUAGE TypeOperators #-}
 
 
-module IpApp.Api
+module Vevapp.Api
     ( app
     ) where
 
 
-import qualified IpApp.Api.Routes as Routes
-import qualified IpApp.Config as Config
 import qualified Servant
+import qualified Vevapp.Api.Routes as Routes
+import qualified Vevapp.Config as Config
 
 
 type AppAPI

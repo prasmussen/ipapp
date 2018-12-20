@@ -1,17 +1,17 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE TypeOperators #-}
 
-module IpApp.Api.Routes
+module Vevapp.Api.Routes
     ( Api
     , server
     ) where
 
-import qualified IpApp.Api.Root as Root
-import qualified IpApp.IpInfo as IpInfo
-import qualified IpApp.Config as Config
-import qualified IpApp.RemoteIp as RemoteIp
 import Servant
 import Servant.HTML.Lucid
+import qualified Vevapp.Api.Root as Root
+import qualified Vevapp.Config as Config
+import qualified Vevapp.IpInfo as IpInfo
+import qualified Vevapp.RemoteIp as RemoteIp
 
 
 

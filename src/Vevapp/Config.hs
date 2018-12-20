@@ -1,4 +1,4 @@
-module IpApp.Config
+module Vevapp.Config
     ( Config(..)
     , ListenPort(..)
     , ListenHost(..)
@@ -8,11 +8,11 @@ module IpApp.Config
     where
 
 
-import qualified Data.Text as T
 import qualified Data.String as String
-import qualified Text.Read as Read
+import qualified Data.Text as T
 import qualified Network.Wai.Handler.Warp as Warp
-import qualified IpApp.RemoteIp as RemoteIp
+import qualified Text.Read as Read
+import qualified Vevapp.RemoteIp as RemoteIp
 
 
 data Config = Config

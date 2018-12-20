@@ -1,5 +1,5 @@
 .stack-work/
-ipapp.cabal
+ip-app.cabal
 *~
 .idea
 *.iml

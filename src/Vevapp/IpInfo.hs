@@ -1,4 +1,4 @@
-module IpApp.IpInfo
+module Vevapp.IpInfo
     ( IpInfo(..)
     , fromRemoteIp
     ) where
@@ -13,9 +13,9 @@ import qualified Data.Text.Encoding as TE
 import qualified Data.Time.Calendar as Calendar
 import qualified Data.Time.Calendar.WeekDate as WeekDate
 import qualified Data.Time.Clock as Clock
-import qualified IpApp.RemoteIp as RemoteIp
 import Lucid
 import qualified Servant
+import qualified Vevapp.RemoteIp as RemoteIp
 
 
 
