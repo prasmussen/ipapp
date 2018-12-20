@@ -4,18 +4,18 @@ module IpApp.IpInfo
     ) where
 
 
-import qualified Data.Time.Clock as Clock
+import Data.Aeson ((.=))
+import qualified Data.Aeson as Aeson
+import qualified Data.ByteString.Lazy as BSL
+import Data.Monoid ((<>))
+import qualified Data.Text as T
+import qualified Data.Text.Encoding as TE
 import qualified Data.Time.Calendar as Calendar
 import qualified Data.Time.Calendar.WeekDate as WeekDate
-import qualified Data.ByteString.Lazy as BSL
-import qualified Data.Text.Encoding as TE
-import qualified Data.Aeson as Aeson
-import qualified Data.Text as T
+import qualified Data.Time.Clock as Clock
 import qualified IpApp.RemoteIp as RemoteIp
-import qualified Servant
-import Data.Monoid ((<>))
 import Lucid
-import Data.Aeson ((.=))
+import qualified Servant
 
 
 
@@ -41,11 +41,7 @@ instance ToHtml IpInfo where
                 title_ ("Ip: " <> ipHtml)
                 link_ [ rel_ "stylesheet", type_ "text/css", href_ "/static/styles.css" ]
             body_ $ do
-                div_ [ class_ "ip" ] ("Ip: " <> ipHtml)
-                div_ [ class_ "api" ] $ do
-                    h3_ "API"
-                    p_ "Plaintext: curl https://ip.vevapp.no"
-                    p_ "JSON: curl https://ip.vevapp.no --header \"Accept: application/json\""
+                h1_ ipHtml
 
     toHtmlRaw =
         toHtml
